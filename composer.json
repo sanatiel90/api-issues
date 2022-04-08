@@ -1,0 +1,21 @@
+{
+    "name": "sanatiel/api-issues",
+    "authors": [
+        {
+            "name": "sanatiel",
+            "email": "sanatielbarros90@gmail.com"
+        }
+    ],
+    "require": {
+        "aura/router": "^3.2",
+        "laminas/laminas-diactoros": "^2.9"        
+    },
+    "autoload": {
+        "psr-4": {
+            "src\\":"src"
+        },
+        "files": [
+            "src/config/database.php"
+        ]
+    }
+}
