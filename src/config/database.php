@@ -1,8 +1,7 @@
 <?php
 
-namespace src\config;
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'issues_api');
+define('DB_USER', 'postgres');
+define('DB_PASSWORD', 'postgres');
 
-$host = 'localhost';
-$dbname = 'api-issues';
-$user = 'postgres';
-$password = 'postgres';

@@ -3,7 +3,6 @@
 namespace src\database;
 
 
-
 use PDO;
 use PDOException;
 
@@ -14,18 +13,21 @@ class Connection
 
     public static function connect(){
         
+        
+
         try {
             
             if(!static::$connection){
-                $connStr = "pgsql:host=localhost;dbname=issues_api";
+                $connStr = "pgsql:host=".DB_HOST.";dbname=".DB_NAME;
 
-                self::$connection = new PDO($connStr, "postgres", "postgres", [
+                self::$connection = new PDO($connStr, DB_USER, DB_PASSWORD, [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
-                ]);
-
-                return static::$connection;
+                ]);                
             }
+
+            return static::$connection;
+
         } catch (PDOException $error) {
             var_dump($error->getMessage());
         }

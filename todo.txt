@@ -1,0 +1,3 @@
+[] - rota delete
+[] - importacao dos dados de conexao via arquivo
+[] - criar camada extra para separacao de conexao do postgres com outros bancos

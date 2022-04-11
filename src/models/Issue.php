@@ -5,10 +5,7 @@ namespace src\models;
 class Issue extends Model {
 
     protected $table = 'issues';
-    public $recordable = ['desc','todo'];
-
-    
-    
-    
+    protected $recordable = ['description','todo', 'doing', 'done', 'created_at'];
+      
 
 }
