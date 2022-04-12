@@ -2,7 +2,6 @@
 
 namespace src\database;
 
-
 use PDO;
 use PDOException;
 
@@ -13,12 +12,11 @@ class Connection
 
     public static function connect(){
         
-        
-
         try {
             
             if(!static::$connection){
-                $connStr = "pgsql:host=".DB_HOST.";dbname=".DB_NAME;
+                
+                $connStr = DB_DRIVER.":host=".DB_HOST.";dbname=".DB_NAME;
 
                 self::$connection = new PDO($connStr, DB_USER, DB_PASSWORD, [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

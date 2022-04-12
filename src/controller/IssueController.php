@@ -126,8 +126,19 @@ class IssueController implements ControllerInterface {
         return $foundedIssue;
     }
 
-    public static function delete() {
+    public static function remove($id) {
+        if(!isset($id)){
+            throw new Exception("Informe o id da issue a ser atualizada");
+        }
+        
+        $deleteIssue = static::findById($id);        
 
+        if(!$deleteIssue){
+            throw new Exception("Nenhuma issue encontrada com o id informado");
+        }
+
+        $issue = new Issue;
+        return $issue->delete($id);  
     }
 
 

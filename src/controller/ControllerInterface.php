@@ -8,5 +8,5 @@ interface ControllerInterface
     public static function create($data);
     public static function update($id, $data);
     public static function findById($id);
-    public static function delete();
+    public static function remove($id);
 }

@@ -1,0 +1,9 @@
+CREATE TABLE issues
+(
+  id serial NOT NULL,
+  description character varying(255) NOT NULL,
+  created_at date NOT NULL default(now()),
+  todo boolean,
+  doing boolean,
+  done boolean
+)

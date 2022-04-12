@@ -16,7 +16,8 @@ abstract class Model
         return $this->table;
     }
     
-    public function all(){
+    public function all()
+    {
         try {
             $connection = Connection::connect();            
 
@@ -36,7 +37,8 @@ abstract class Model
     }
 
 
-    public function find(int $id){
+    public function find(int $id)
+    {
         try {
             $connection = Connection::connect();            
 
@@ -57,7 +59,8 @@ abstract class Model
         }
     }
 
-    public function add($data){
+    public function add($data)
+    {
         try {
             $connection = Connection::connect();      
 
@@ -87,7 +90,8 @@ abstract class Model
         }
     }
 
-    public function updateData($id, $data){
+    public function updateData($id, $data)
+    {
         try {            
         
             $connection = Connection::connect();      
@@ -113,6 +117,25 @@ abstract class Model
         } catch (Throwable $error) {
             var_dump($error->getMessage());
         }       
+    }
+
+
+    public function delete($id)
+    {
+        try {
+            $connection = Connection::connect();            
+
+            $sql = "DELETE FROM {$this->getTable()} WHERE {$this->idField} = :{$id} ";
+
+            $statement = $connection->prepare($sql);
+
+            $statement->bindValue(":{$id}", $id);
+
+            return $statement->execute();            
+
+        } catch (Throwable $error) {
+            var_dump($error->getMessage());
+        }
     }
     
 

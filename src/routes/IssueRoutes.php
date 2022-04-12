@@ -21,6 +21,7 @@ class IssueRoutes
         $this->routeGetById();
         $this->routePost();
         $this->routePut();
+        $this->routeDelete();
     }
 
     private function routeGet()
@@ -38,7 +39,7 @@ class IssueRoutes
         });
     }
 
-    
+
     private function routeGetById()
     {
         $this->map->get('issues.getById', '/issues/{id}', function ($request) {
@@ -114,6 +115,29 @@ class IssueRoutes
         
             return $response;
             
+        });
+    }
+
+    private function routeDelete()
+    {
+        $this->map->delete('issues.delete', '/issues/{id}', function ($request) {
+            try {
+                $id = $request->getAttribute('id');    
+                IssueController::remove($id);    
+                $response = new JsonResponse(
+                    ['mensagem' => 'Issue deletada com sucesso'],
+                    200, 
+                    ['Content-Type' => 'application/json']
+                );
+            } catch (Throwable $error) {
+                $response = new JsonResponse(
+                    ["error" => $error->getMessage()],
+                    400,
+                    ['Content-Type' => 'application/json']
+                );    
+            }
+        
+            return $response;
         });
     }
 
