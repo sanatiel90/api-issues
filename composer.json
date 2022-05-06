@@ -8,14 +8,16 @@
     ],
     "require": {
         "aura/router": "^3.2",
-        "laminas/laminas-diactoros": "^2.9"        
+        "laminas/laminas-diactoros": "^2.9",
+        "illuminate/database": "^9.11"        
     },
     "autoload": {
         "psr-4": {
             "src\\":"src"
         },
         "files": [
-            "src/config/database.php"
+            "src/config/database.php",
+            "src/config/bootstrap.php"
         ]
     }
 }

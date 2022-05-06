@@ -19,18 +19,12 @@ abstract class Model
     public function all()
     {
         try {
-            $connection = Connection::connect();            
-
+            $connection = Connection::connect();
             $sql = "SELECT * FROM {$this->getTable()} ";
-
             $statement = $connection->prepare($sql);
-
             $statement->execute();
-
-            $data = $statement->fetchAll(PDO::FETCH_ASSOC);                
-
+            $data = $statement->fetchAll(PDO::FETCH_ASSOC);
             return $data;
-
         } catch (Throwable $error) {
             var_dump($error->getMessage());
         }
@@ -40,20 +34,13 @@ abstract class Model
     public function find(int $id)
     {
         try {
-            $connection = Connection::connect();            
-
+            $connection = Connection::connect();
             $sql = "SELECT * FROM {$this->getTable()} WHERE {$this->idField} = :{$id} ";
-
             $statement = $connection->prepare($sql);
-
             $statement->bindValue(":{$id}", $id);
-
             $statement->execute();
-
             $data = $statement->fetch(PDO::FETCH_ASSOC);                
-
             return $data;
-
         } catch (Throwable $error) {
             var_dump($error->getMessage());
         }
@@ -63,22 +50,18 @@ abstract class Model
     {
         try {
             $connection = Connection::connect();      
-
             $sql = "INSERT INTO {$this->getTable()} (";
             foreach($this->recordable as $field) {
                 $sql .= "$field,";
             }
             $sql = rtrim($sql, ',');
-
             $sql .= ") VALUES("; 
             foreach($this->recordable as $field) {
                 $sql .= ":$field,";
             }
             $sql = rtrim($sql, ',');
             $sql .= ")";
-
             $statement = $connection->prepare($sql);                                 
-
             foreach($this->recordable as $field) {
                 $statement->bindValue(":$field", $data[$field]);
             }            
