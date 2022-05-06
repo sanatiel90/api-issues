@@ -8,9 +8,6 @@ use src\models\Issue;
 class IssueController implements ControllerInterface {
     
     public static function index(){
-       //$issue = new Issue;
-
-       //return $issue->all() ;
        return Issue::all();
     }
 
