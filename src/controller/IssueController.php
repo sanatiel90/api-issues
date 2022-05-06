@@ -46,8 +46,13 @@ class IssueController implements ControllerInterface {
         //o campo created_at vai ser preenchido automaticamente com a data atual
         $data['created_at'] = date('d/m/Y');
         
-        $issue = new Issue;
-        return $issue->add($data);
+        $issue = Issue::create([
+            'description' => $data['description'],
+            'doing' => $data['doing'],
+            'todo' => $data['todo'],
+            'done' => $data['done']
+        ]);
+                
     }
     
     public static function update($id, $data) {
