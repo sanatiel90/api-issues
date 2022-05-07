@@ -46,7 +46,7 @@ class IssueController implements ControllerInterface {
         //o campo created_at vai ser preenchido automaticamente com a data atual
         $data['created_at'] = date('d/m/Y');
         
-        $issue = Issue::create([
+        Issue::create([
             'description' => $data['description'],
             'doing' => $data['doing'],
             'todo' => $data['todo'],
@@ -61,87 +61,69 @@ class IssueController implements ControllerInterface {
             throw new Exception("Informe o id da issue a ser atualizada");
         }
         
-        $editIssue = static::findById($id);        
-
-        if(!$editIssue){
-            throw new Exception("Nenhuma issue encontrada com o id informado");
+        $issue = static::findById($id);     
+        
+        foreach($data as $key=>$value) {
+            if(isset($data[$key])){
+                $issue->$data[$key] = $value;
+            }
         }
 
         if(isset($data['description'])){
-            $editIssue['description'] = $data['description'];
+            $issue->description = $data['description'];
         }
 
         if(isset($data['todo'])){
-            $editIssue['todo'] = $data['todo'];
+            $issue->todo = $data['todo'];
         }
 
         if(isset($data['doing'])){
-            $editIssue['doing'] = $data['doing'];
+            $issue->doing = $data['doing'];
         }
 
         if(isset($data['done'])){
-            $editIssue['done'] = $data['done'];
+            $issue->done = $data['done'];
         }
 
-        if(!$editIssue['todo']){
-            $editIssue['todo'] = "0";
+        if(!$issue->todo){
+            $issue->todo = "0";
         }
 
-        if(!$editIssue['doing']){
-            $editIssue['doing'] = "0";
+        if(!$issue->doing){
+            $issue->doing = "0";
         }
 
-        if(!$editIssue['done']){
-            $editIssue['done'] = "0";
+        if(!$issue->done){
+            $issue->done = "0";
         }
 
-        if( $editIssue['todo'] && ($editIssue['doing'] || $editIssue['done'])){
+        if( $issue->todo && ($issue->doing || $issue->done)){
             throw new Exception("Apenas uma marcação de status é permitida");
         }
 
-        if( $editIssue['doing'] && ($editIssue['todo'] || $editIssue['done'])){
+        if( $issue->doing && ($issue->todo || $issue->done)){
             throw new Exception("Apenas uma marcação de status é permitida");
         }
 
-        if( $editIssue['done'] && ($editIssue['todo'] || $editIssue['doing'])){
+        if( $issue->done && ($issue->todo || $issue->doing)){
             throw new Exception("Apenas uma marcação de status é permitida");
         }
         
-        $issue = new Issue;
-        return $issue->updateData($id, $editIssue);        
+        return $issue->save();
 
     }
 
-
-    public static function findById($id) {
-        if(!is_numeric($id)){
-            throw new Exception("Parametro id precisa ser um número inteiro");            
-        }
-        
-        $issue = new Issue;
-
-        $foundedIssue = $issue->find($id);
-
-        if(!$foundedIssue){
-            throw new Exception("Nenhuma issue encontrada com o id informado");
-        }
-
-        return $foundedIssue;
+    public static function find($id) {       
+        return Issue::findOrFail($id);
     }
 
-    public static function remove($id) {
-        if(!isset($id)){
-            throw new Exception("Informe o id da issue a ser atualizada");
-        }
-        
-        $deleteIssue = static::findById($id);        
+    public static function remove($id) {        
+        $issue = static::findById($id);
+        return $issue->delete();
+    }
 
-        if(!$deleteIssue){
-            throw new Exception("Nenhuma issue encontrada com o id informado");
-        }
-
-        $issue = new Issue;
-        return $issue->delete($id);  
+    private static function findById($id) {
+        return Issue::findOrFail($id);
     }
 
 

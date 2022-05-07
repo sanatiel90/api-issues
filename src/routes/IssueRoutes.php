@@ -45,7 +45,7 @@ class IssueRoutes
         $this->map->get('issues.getById', '/issues/{id}', function ($request) {
             try {
                 $id = $request->getAttribute('id');    
-                $data = IssueController::findById($id);    
+                $data = IssueController::find($id);    
                 $response = new JsonResponse(
                     $data,
                     200, 

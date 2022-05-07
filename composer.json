@@ -19,5 +19,8 @@
             "src/config/database.php",
             "src/config/bootstrap.php"
         ]
+    },
+    "scripts": {
+        "dev": "php -S localhost:8000"
     }
 }
