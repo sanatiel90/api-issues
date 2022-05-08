@@ -70,7 +70,8 @@ class IssueRoutes
             
             try {
                 $body = json_decode($request->getBody()->getContents(), true);                
-                IssueController::create($body);        
+                //IssueController::create($body);        
+                IssueController::save($body);
                 $response = new JsonResponse(
                     ['mensagem' =>  'Issue criada com sucesso'],
                     201,
@@ -97,8 +98,9 @@ class IssueRoutes
             try {        
                 $id = $request->getAttribute('id');
                 $body = json_decode($request->getBody()->getContents(), true);    
-                    
-                IssueController::update($id, $body);        
+                $body['id'] = $id;    
+                //IssueController::update($id, $body);        
+                IssueController::save($body);        
                 $response = new JsonResponse(
                     ['mensagem' =>  'Issue atualizada com sucesso'],
                     200,

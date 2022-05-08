@@ -11,7 +11,41 @@ class IssueController implements ControllerInterface {
        return Issue::all();
     }
 
-    public static function create($data) {
+    public static function save($data) {
+        //se nao tiver sido informado o id, está criando um novo registro
+        /*if(!isset($data['id'])){
+            Issue::validate($data);
+            return Issue::create([
+                'description' => $data['description'],
+                'doing' => $data['doing'],
+                'todo' => $data['todo'],
+                'done' => $data['done']
+            ]);
+
+        } else {
+            //atualizando registro
+            $issue = static::findById($data['id']);     
+            if(!$issue) {
+                throw new Exception("Issue não encontrada");
+            }
+            Issue::validate($issue);
+            return $issue->save();
+        }*/
+        Issue::validate($data);
+        return Issue::updateOrCreate(
+            [   
+                'id' => $data['id']
+            ],
+            [
+                'description' => $data['description'],
+                'doing' => $data['doing'],
+                'todo' => $data['todo'],
+                'done' => $data['done']
+            ]
+        );
+    }
+
+    /*public static function create($data) {
         
         //validações ... 
         if(!isset($data['description'])){
@@ -53,9 +87,9 @@ class IssueController implements ControllerInterface {
             'done' => $data['done']
         ]);
                 
-    }
+    }*/
     
-    public static function update($id, $data) {
+    /*public static function update($id, $data) {
                 
         if(!isset($id)){
             throw new Exception("Informe o id da issue a ser atualizada");
@@ -65,9 +99,12 @@ class IssueController implements ControllerInterface {
         
         foreach($data as $key=>$value) {
             if(isset($data[$key])){
+                var_dump($issue->$data[$key]);
                 $issue->$data[$key] = $value;
             }
-        }
+        }        
+
+        
 
         if(isset($data['description'])){
             $issue->description = $data['description'];
@@ -111,7 +148,7 @@ class IssueController implements ControllerInterface {
         
         return $issue->save();
 
-    }
+    }*/
 
     public static function find($id) {       
         return Issue::findOrFail($id);
