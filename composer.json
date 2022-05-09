@@ -17,10 +17,14 @@
         },
         "files": [
             "src/config/database.php",
-            "src/config/bootstrap.php"
+            "src/config/bootstrap.php"            
         ]
     },
-    "scripts": {
-        "dev": "php -S localhost:8000"
+    "scripts": {        
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "php -S localhost:8000"
+        ],
+        "migrate": "php src/migrations/create_issues_table.php"
     }
 }

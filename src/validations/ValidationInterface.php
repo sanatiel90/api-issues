@@ -1,6 +1,8 @@
 <?php
 
-interface ValidationInterface 
+namespace src\validations;
+
+interface ValidationInterface
 {
-    public function validate($data);
+    public function execute($data);
 }

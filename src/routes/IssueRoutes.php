@@ -69,8 +69,7 @@ class IssueRoutes
         $this->map->post('issues.post', '/issues', function ($request) {    
             
             try {
-                $body = json_decode($request->getBody()->getContents(), true);                
-                //IssueController::create($body);        
+                $body = json_decode($request->getBody()->getContents(), true);                                
                 IssueController::save($body);
                 $response = new JsonResponse(
                     ['mensagem' =>  'Issue criada com sucesso'],
@@ -98,8 +97,7 @@ class IssueRoutes
             try {        
                 $id = $request->getAttribute('id');
                 $body = json_decode($request->getBody()->getContents(), true);    
-                $body['id'] = $id;    
-                //IssueController::update($id, $body);        
+                $body['id'] = $id;                    
                 IssueController::save($body);        
                 $response = new JsonResponse(
                     ['mensagem' =>  'Issue atualizada com sucesso'],

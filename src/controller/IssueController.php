@@ -11,144 +11,25 @@ class IssueController implements ControllerInterface {
        return Issue::all();
     }
 
-    public static function save($data) {
-        //se nao tiver sido informado o id, está criando um novo registro
-        /*if(!isset($data['id'])){
-            Issue::validate($data);
-            return Issue::create([
-                'description' => $data['description'],
-                'doing' => $data['doing'],
-                'todo' => $data['todo'],
-                'done' => $data['done']
-            ]);
-
-        } else {
-            //atualizando registro
-            $issue = static::findById($data['id']);     
-            if(!$issue) {
-                throw new Exception("Issue não encontrada");
-            }
-            Issue::validate($issue);
-            return $issue->save();
-        }*/
-        Issue::validate($data);
+    public static function save($data) {      
+        $dataObj = (object) $data;          
+        if (isset($dataObj->id)) {
+            $dataObj = static::validateUpdateObj($dataObj);
+        } 
+        $dataObj = static::validateNullDefault($dataObj);
+        Issue::validate($dataObj);                     
         return Issue::updateOrCreate(
             [   
-                'id' => $data['id']
+                'id' => $dataObj->id
             ],
             [
-                'description' => $data['description'],
-                'doing' => $data['doing'],
-                'todo' => $data['todo'],
-                'done' => $data['done']
+                'description' => $dataObj->description,
+                'doing' => $dataObj->doing,
+                'todo' => $dataObj->todo,
+                'done' => $dataObj->done
             ]
         );
-    }
-
-    /*public static function create($data) {
-        
-        //validações ... 
-        if(!isset($data['description'])){
-            throw new Exception("Informe o campo descrição");
-        }
-
-        if( $data['todo'] && ($data['doing'] || $data['done'])){
-            throw new Exception("Apenas uma marcação de status é permitida");
-        }
-
-        if( $data['doing'] && ($data['todo'] || $data['done'])){
-            throw new Exception("Apenas uma marcação de status é permitida");
-        }
-
-        if( $data['done'] && ($data['todo'] || $data['doing'])){
-            throw new Exception("Apenas uma marcação de status é permitida");
-        }
-
-        //esses campos booleanos, caso nao forem informados, serao considerados false
-        if(!isset($data['todo'])){
-            $data['todo'] = "0";
-        }
-
-        if(!isset($data['doing'])){
-            $data['doing'] = "0";
-        }
-
-        if(!isset($data['done'])){
-            $data['done'] = "0";
-        }
-
-        //o campo created_at vai ser preenchido automaticamente com a data atual
-        $data['created_at'] = date('d/m/Y');
-        
-        Issue::create([
-            'description' => $data['description'],
-            'doing' => $data['doing'],
-            'todo' => $data['todo'],
-            'done' => $data['done']
-        ]);
-                
-    }*/
-    
-    /*public static function update($id, $data) {
-                
-        if(!isset($id)){
-            throw new Exception("Informe o id da issue a ser atualizada");
-        }
-        
-        $issue = static::findById($id);     
-        
-        foreach($data as $key=>$value) {
-            if(isset($data[$key])){
-                var_dump($issue->$data[$key]);
-                $issue->$data[$key] = $value;
-            }
-        }        
-
-        
-
-        if(isset($data['description'])){
-            $issue->description = $data['description'];
-        }
-
-        if(isset($data['todo'])){
-            $issue->todo = $data['todo'];
-        }
-
-        if(isset($data['doing'])){
-            $issue->doing = $data['doing'];
-        }
-
-        if(isset($data['done'])){
-            $issue->done = $data['done'];
-        }
-
-        if(!$issue->todo){
-            $issue->todo = "0";
-        }
-
-        if(!$issue->doing){
-            $issue->doing = "0";
-        }
-
-        if(!$issue->done){
-            $issue->done = "0";
-        }
-
-        if( $issue->todo && ($issue->doing || $issue->done)){
-            throw new Exception("Apenas uma marcação de status é permitida");
-        }
-
-        if( $issue->doing && ($issue->todo || $issue->done)){
-            throw new Exception("Apenas uma marcação de status é permitida");
-        }
-
-        if( $issue->done && ($issue->todo || $issue->doing)){
-            throw new Exception("Apenas uma marcação de status é permitida");
-        }
-        
-        return $issue->save();
-
-    }*/
+    }    
 
     public static function find($id) {       
         return Issue::findOrFail($id);
@@ -162,6 +43,25 @@ class IssueController implements ControllerInterface {
     private static function findById($id) {
         return Issue::findOrFail($id);
     }
+    
+    private static function validateUpdateObj($dataObj)
+    {
+        if(!is_numeric($dataObj->id)) throw new Exception("parâmetro inválido");
 
+        $issue = static::findById($dataObj->id);             
+        if(!isset($dataObj->description)) $dataObj->description = $issue->description;
+        if(!isset($dataObj->todo)) $dataObj->todo = $issue->todo;
+        if(!isset($dataObj->doing)) $dataObj->doing = $issue->doing;
+        if(!isset($dataObj->done)) $dataObj->done = $issue->done;  
+        return $dataObj;
+    }
+
+    private static function validateNullDefault($dataObj)
+    {
+        if(!isset($dataObj->todo)) $dataObj->todo = "0";
+        if(!isset($dataObj->doing)) $dataObj->doing = "0";
+        if(!isset($dataObj->done)) $dataObj->done = "0";  
+        return $dataObj;
+    }    
 
 }
