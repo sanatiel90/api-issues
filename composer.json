@@ -9,7 +9,9 @@
     "require": {
         "aura/router": "^3.2",
         "laminas/laminas-diactoros": "^2.9",
-        "illuminate/database": "^9.11"        
+        "illuminate/database": "^8.83",
+        "league/route": "^5.1",
+        "laminas/laminas-httphandlerrunner": "^2.1"        
     },
     "autoload": {
         "psr-4": {
@@ -17,7 +19,8 @@
         },
         "files": [
             "src/config/database.php",
-            "src/config/bootstrap.php"            
+            "src/config/bootstrap.php",
+            "src/routes-api/routes-api.php"            
         ]
     },
     "scripts": {        

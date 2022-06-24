@@ -26,15 +26,22 @@ class IssueRoutes
 
     private function routeGet()
     {
-        $this->map->get('issues.get', '/issues', function ($request) {    
-
-            $data = IssueController::index();    
+        /*$this->map->get('issues.get', '/issues', function ($request) {    
+            $data = IssueController::index();                
             $response = new JsonResponse(
                 $data,
                 200,
                 ['Content-Type' => 'application/json']
-            );
-        
+            );        
+            return $response;
+        });*/
+        $this->map->get('aa', '/issues', function ($request) {    
+            $data = IssueController::index();                
+            $response = new JsonResponse(
+                $data,
+                200,
+                ['Content-Type' => 'application/json']
+            );        
             return $response;
         });
     }

@@ -3,52 +3,56 @@
 namespace src\controller;
 
 use Exception;
+use Laminas\Diactoros\Response;
+use Psr\Http\Message\ServerRequestInterface;
 use src\models\Issue;
 
-class IssueController implements ControllerInterface {
+class IssueController  {
     
-    public static function index(){
+    public function index(){
        return Issue::all();
     }
 
-    public static function save($data) {      
-        $dataObj = (object) $data;          
-        if (isset($dataObj->id)) {
-            $dataObj = static::validateUpdateObj($dataObj);
+    public function save(ServerRequestInterface $request) { 
+        $data = (object) json_decode($request->getBody()->getContents());
+        if (isset($data->id)) {
+            $data = $this->validateUpdateObj($data);
         } 
-        $dataObj = static::validateNullDefault($dataObj);
-        Issue::validate($dataObj);                     
+        $data = $this->validateNullDefault($data);
+        Issue::validate($data);                     
         return Issue::updateOrCreate(
             [   
-                'id' => $dataObj->id
+                'id' => isset($data->id) ? $data->id : null 
             ],
             [
-                'description' => $dataObj->description,
-                'doing' => $dataObj->doing,
-                'todo' => $dataObj->todo,
-                'done' => $dataObj->done
+                'description' => $data->description,
+                'doing' => $data->doing,
+                'todo' => $data->todo,
+                'done' => $data->done
             ]
-        );
+        );       
     }    
 
-    public static function find($id) {       
-        return Issue::findOrFail($id);
+    public function show(ServerRequestInterface $request, $args) {
+        return Issue::findOrFail($args['id']);
     }
 
-    public static function remove($id) {        
-        $issue = static::findById($id);
-        return $issue->delete();
+    public function destroy(ServerRequestInterface $request, $args) {
+        $issue = $this->findById($args['id']);
+        $issue->delete();
+        $response = new Response();
+        return $response->withStatus(200);
     }
 
-    private static function findById($id) {
+    private function findById($id) {
         return Issue::findOrFail($id);
     }
     
-    private static function validateUpdateObj($dataObj)
+    private function validateUpdateObj($dataObj)
     {
         if(!is_numeric($dataObj->id)) throw new Exception("parâmetro inválido");
 
-        $issue = static::findById($dataObj->id);             
+        $issue = static::findById($dataObj->id);
         if(!isset($dataObj->description)) $dataObj->description = $issue->description;
         if(!isset($dataObj->todo)) $dataObj->todo = $issue->todo;
         if(!isset($dataObj->doing)) $dataObj->doing = $issue->doing;
@@ -56,11 +60,11 @@ class IssueController implements ControllerInterface {
         return $dataObj;
     }
 
-    private static function validateNullDefault($dataObj)
+    private function validateNullDefault($dataObj)
     {
         if(!isset($dataObj->todo)) $dataObj->todo = "0";
         if(!isset($dataObj->doing)) $dataObj->doing = "0";
-        if(!isset($dataObj->done)) $dataObj->done = "0";  
+        if(!isset($dataObj->done)) $dataObj->done = "0";
         return $dataObj;
     }    
 

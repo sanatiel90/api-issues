@@ -6,5 +6,5 @@ CREATE TABLE issues
   doing boolean default false,
   done boolean default false,
   created_at date NOT NULL default(now()),
-  updated_at date NOT NULL default(now()),
+  updated_at date NOT NULL default(now())
 )

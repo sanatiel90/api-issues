@@ -1,10 +1,8 @@
 <?php
 
-use src\routes\AppRoutes;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 $capsule = new Capsule;
-$appRoutes = new AppRoutes();
 
 $capsule->addConnection([
     "driver" => DB_DRIVER,
@@ -17,4 +15,4 @@ $capsule->addConnection([
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
-$appRoutes->setRoutes();
+  
