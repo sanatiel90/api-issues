@@ -18,33 +18,27 @@ class BaseController {
      }
      
      public function index(){
-        $model = $this->getModel();        
+        $model = $this->getModel();
         return $model::all();
      }
  
      public function save(ServerRequestInterface $request) { 
          $data = (object) json_decode($request->getBody()->getContents());
          $model = $this->getModel();
-         
          if (isset($data->id)) {
              $data = $model->validateUpdateObj($data);
-         } 
-                 
-         
-         var_dump($data);
-         die();
-         $model->validate($data);       
-         
+         }
+         $model->validate($data);
          return $model::updateOrCreate(
             [   
                 'id' => isset($data->id) ? $data->id : null 
             ],
             (array) $data
-        );      
-     }    
+        );
+     }
  
      public function show(ServerRequestInterface $request, $args) {
-         $model = $this->getModel();       
+         $model = $this->getModel();
          return $model::findOrFail($args['id']);
      }
  

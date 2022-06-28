@@ -20,21 +20,21 @@ class Issue extends Eloquent {
             }
          }
 
-         $dataObj = $this->validateNullDefault((object) $dataObj);         
+         $dataObj = $this->validateNullDefault((object) $dataObj);
 
          return $dataObj;
     }
 
-    private function validateNullDefault($dataObj)
-     {
+    public function validateNullDefault($dataObj) {
          if(!isset($dataObj->todo)) $dataObj->todo = "0";
          if(!isset($dataObj->doing)) $dataObj->doing = "0";
          if(!isset($dataObj->done)) $dataObj->done = "0";
          return $dataObj;
      }    
+     
         
     public function validate($data)
-    {        
+    {                
         Validation::validateFields($data->description, ['required', 'min:6']);
         Validation::validateFields($data, ['singleStatus']);
     }   
