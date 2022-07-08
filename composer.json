@@ -11,7 +11,7 @@
         "laminas/laminas-diactoros": "^2.9",
         "illuminate/database": "^8.83",
         "league/route": "^5.1",
-        "laminas/laminas-httphandlerrunner": "^2.1"        
+        "laminas/laminas-httphandlerrunner": "^2.1"
     },
     "autoload": {
         "psr-4": {
@@ -20,13 +20,16 @@
         "files": [
             "src/config/database.php",
             "src/config/bootstrap.php",
-            "src/routes-api/routes-api.php"            
+            "src/routes-api/routes-api.php"
         ]
     },
     "scripts": {        
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "php -S localhost:8000"
-        ]
+        ],
+        "migrate": [
+            "php src\\migrations\\run_migration.php"
+        ]                 
     }
 }

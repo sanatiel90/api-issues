@@ -3,6 +3,6 @@
 namespace src\controller;
 
 class IssueController extends BaseController {    
-    protected $model = 'Issue';  
+  protected $model = 'Issue';  
 }
 

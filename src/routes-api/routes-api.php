@@ -1,5 +1,6 @@
 <?php
 
+use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\ServerRequestFactory;
 use League\Route\Strategy\JsonStrategy;
@@ -19,6 +20,7 @@ $router->setStrategy($jsonStrategy);
 
 foreach([
     'issues' => 'src\controller\IssueController',
+    'people' => 'src\controller\PeopleController',
 ] as $route=>$controller) {
     $router->get("/$route", $controller.'::index');
     $router->get("/$route/{id}", $controller.'::show');
@@ -26,6 +28,11 @@ foreach([
     $router->put("/$route", $controller.'::save');
     $router->delete("/$route/{id}", $controller.'::destroy');
 }
+
+$router->get("/", function(){
+    $response = new Response();
+    return $response->withStatus(200);
+});
 
 $response = $router->dispatch($request);
 (new Laminas\HttpHandlerRunner\Emitter\SapiEmitter)->emit($response);

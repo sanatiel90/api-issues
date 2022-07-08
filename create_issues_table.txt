@@ -8,3 +8,12 @@ CREATE TABLE issues
   created_at date NOT NULL default(now()),
   updated_at date NOT NULL default(now())
 )
+
+CREATE TABLE people
+(
+  id serial PRIMARY KEY NOT NULL,
+  name varchar NOT NULL,
+  email varchar,
+  created_at date NOT NULL default(now()),
+  updated_at date NOT NULL default(now())
+)
