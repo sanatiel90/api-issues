@@ -7,7 +7,11 @@ class CreateIssues extends BaseMigration {
     if (!Capsule::schema()->hasTable($this->table)) {
       Capsule::schema()->create($this->table, function ($table) {
         $table->id();
-        $table->string('issues');
+        $table->string('description');
+        $table->boolean('todo')->default(false);
+        $table->boolean('doing')->default(false);
+        $table->boolean('done')->default(false);
+        $table->timestamps();
       });
 
       $this->checkTable($this->table);

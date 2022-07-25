@@ -1,10 +1,13 @@
 <?php
 namespace src\app\database\seeders;
-use App\Classes\Lib;
+
+use src\app\classes\Lib;
+
 abstract class BaseSeeder {
   protected $model;
   protected $data;
   public function seed() {
-    Lib::getModel($this->model)->storeAll($this->data);
+    //TODO - implementar com Controller
+    //Lib::getModel($this->model)->storeAll($this->data);
   }
 }

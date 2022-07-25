@@ -17,6 +17,7 @@ $capsule->addConnection([
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
-//para fazer linhas de comando
+//se nao houver a HTTP_HOST, foi acessado via linha de comando
 global $argc, $argv;
-new CommandLine($argc, $argv);
+$web = isset($_SERVER['HTTP_HOST']);
+if (!$web) new CommandLine($argc, $argv);
