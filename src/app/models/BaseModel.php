@@ -1,6 +1,6 @@
 <?php
 
-namespace src\models;
+namespace src\app\models;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model as Eloquent;

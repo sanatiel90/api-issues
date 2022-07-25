@@ -1,6 +1,6 @@
 <?php
 
-namespace src\controller;
+namespace src\app\controller;
 
 use Exception;
 use Laminas\Diactoros\Response;
@@ -10,7 +10,7 @@ class BaseController {
      protected $model = '';
     
      protected function getModel() {
-        $modelClass = 'src\\models\\'.$this->model;
+        $modelClass = 'src\\app\\models\\'.$this->model;
         if(!class_exists($modelClass)) {
             throw new Exception("Model inexistente");
         }                

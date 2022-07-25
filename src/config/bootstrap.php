@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Capsule\Manager as Capsule;
+use src\app\classes\CommandLine;
+use src\app\classes\Helper;
 
 $capsule = new Capsule;
 
@@ -14,3 +16,7 @@ $capsule->addConnection([
 
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
+
+//para fazer linhas de comando
+global $argc, $argv;
+new CommandLine($argc, $argv);

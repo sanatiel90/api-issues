@@ -19,8 +19,8 @@ $router = new League\Route\Router;
 $router->setStrategy($jsonStrategy);
 
 foreach([
-    'issues' => 'src\controller\IssueController',
-    'people' => 'src\controller\PeopleController',
+    'issues' => 'src\app\controller\IssueController',
+    'people' => 'src\app\controller\PeopleController',
 ] as $route=>$controller) {
     $router->get("/$route", $controller.'::index');
     $router->get("/$route/{id}", $controller.'::show');
@@ -33,6 +33,7 @@ $router->get("/", function(){
     $response = new Response();
     return $response->withStatus(200);
 });
+
 
 $response = $router->dispatch($request);
 (new Laminas\HttpHandlerRunner\Emitter\SapiEmitter)->emit($response);
