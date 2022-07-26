@@ -9,10 +9,10 @@
     "require": {
         "aura/router": "^3.2",
         "laminas/laminas-diactoros": "^2.9",
-        "illuminate/database": "^8.83",
+        "illuminate/database": "^7.30", 
         "league/route": "^5.1",
         "laminas/laminas-httphandlerrunner": "^2.1",
-        "illuminate/validation": "^8.0.0"
+        "illuminate/validation": "^7.30"
     },
     "autoload": {
         "psr-4": {

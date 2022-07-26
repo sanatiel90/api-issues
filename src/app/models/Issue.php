@@ -8,12 +8,22 @@ use src\validations\Validation;
 
 class Issue extends BaseModel {
         
-  protected $fillable = ['description','todo', 'doing', 'done'];   
+  protected $fillable = ['description','todo', 'doing', 'done'];
+  public $validation = [
+    'description' => ['required', 'min:6'],
+    'todo' => 'boolean',
+    'doing' => 'boolean',
+    'done' => 'boolean'
+  ];
              
-  public function validate($data) {
+  public function validate($data) {    
+    //parent::validate($data);
     $data = $this->validateNullDefault($data);
-    Validation::validateFields($data->description, ['required', 'min:6']);
-    Validation::validateFields($data, ['singleStatus']);
+    if($data->todo === false){
+       throw new Exception('todo precisa ser TRUE'); 
+    }
+    //Validation::validateFields($data->description, ['required', 'min:6']);
+    //Validation::validateFields($data, ['singleStatus']);
   }
 
   private function validateNullDefault($dataObj) {

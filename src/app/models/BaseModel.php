@@ -4,6 +4,8 @@ namespace src\app\models;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use src\app\classes\Lib;
+use src\app\database\validation\ValidatorFactory;
 
 class BaseModel extends Eloquent {
     
@@ -20,6 +22,11 @@ class BaseModel extends Eloquent {
   }    
 
   public function validate($data) {
+    $factory = new ValidatorFactory();
+    $validator = $factory->createValidator((array) $data, $this->validation);
+    if($validator->fails()){
+      throw new Exception('not valid');
+    };
     return true;
   }
 }
